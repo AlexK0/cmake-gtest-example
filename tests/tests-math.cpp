@@ -1,7 +1,7 @@
 // tests-math.cpp
-#include <gtest/gtest.h>
-
 #include "my-math.h"
+
+#include <gtest/gtest.h>
 
 TEST(math_tests, test_sum) {
   ASSERT_EQ(sum(1, 2), 3);

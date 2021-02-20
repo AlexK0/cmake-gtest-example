@@ -17,10 +17,16 @@ else()
     FetchContent_MakeAvailable(googletest)
 endif()
 
-# Разрешаем делать #include хидеров из папки с тестами
 include_directories(src)
-add_executable(example src/main.cpp src/my-math.cpp)
+add_executable(example
+        src/main.cpp
+        src/my-math.cpp
+        src/string-observer.cpp
+        src/observed-string.cpp)
 
-# Добавляем бинарник для unittests
-add_executable(unittests tests/tests-math.cpp src/my-math.cpp)
+add_executable(unittests
+        tests/tests-math.cpp src/my-math.cpp
+        tests/test-string-observer.cpp src/string-observer.cpp
+        tests/test-observed-string.cpp src/observed-string.cpp)
+
 target_link_libraries(unittests PRIVATE gtest gtest_main -lpthread)
