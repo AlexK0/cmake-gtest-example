@@ -21,3 +21,8 @@ ObservedString &ObservedString::operator+=(const ObservedString &other) {
   return *this;
 }
 
+ObservedString operator+(const ObservedString &lhs, const ObservedString &rhs) {
+  std::string tmp_str = lhs.str_ + rhs.str_;
+  return ObservedString{tmp_str.c_str(), tmp_str.size()};
+}
+

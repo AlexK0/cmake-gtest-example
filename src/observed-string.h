@@ -20,6 +20,7 @@ public:
 
   ObservedString &operator+=(const ObservedString &other);
 
+  friend ObservedString operator+(const ObservedString &lhs, const ObservedString &rhs);
 
   const char *c_str() const noexcept { return str_.c_str(); }
 
