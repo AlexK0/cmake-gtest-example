@@ -7,17 +7,29 @@ StringObserver &ObservedString::get_observer() noexcept {
   return observer;
 }
 
+void ObservedString::on_string_create() noexcept {
+  if (!str_.empty()) {
+    get_observer().add_string(str_);
+  }
+}
+
+void ObservedString::on_string_remove() noexcept {
+  if (!str_.empty()) {
+    get_observer().remove_string(str_);
+  }
+}
+
 ObservedString &ObservedString::operator=(const ObservedString &other) {
-  get_observer().remove_string(str_);
+  on_string_remove();
   str_ = other.str_;
-  get_observer().add_string(str_);
+  on_string_create();
   return *this;
 }
 
 ObservedString &ObservedString::operator+=(const ObservedString &other) {
-  get_observer().remove_string(str_);
+  on_string_remove();
   str_ += other.str_;
-  get_observer().add_string(str_);
+  on_string_create();
   return *this;
 }
 
