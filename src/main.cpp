@@ -3,6 +3,7 @@
 #include "observed-string.h"
 
 #include <iostream>
+#include <vector>
 
 void case1() {
   {
@@ -53,6 +54,17 @@ void case5() {
   std::cout << "Out of scope:" << std::endl << ObservedString::get_observer();
 }
 
+void case6() {
+  {
+    ObservedString s1{"hello"};
+    ObservedString s2{"world"};
+
+    std::vector<ObservedString> v;
+    v.push_back(s1 + s2);
+    std::cout << "In scope:" << std::endl << ObservedString::get_observer() << std::endl;
+  }
+  std::cout << "Out of scope:" << std::endl << ObservedString::get_observer();
+}
 
 int main(int argc, char *argv[]) {
   int case_id = 0;
@@ -75,6 +87,9 @@ int main(int argc, char *argv[]) {
       break;
     case 5:
       case5();
+      break;
+    case 6:
+      case6();
       break;
     default:
       std::cout << "Please choose the correct case!" << std::endl;
