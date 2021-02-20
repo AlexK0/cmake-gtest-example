@@ -14,6 +14,16 @@ void case1() {
   std::cout << "Out of scope:" << std::endl << ObservedString::get_observer();
 }
 
+void case2() {
+  {
+    ObservedString s1{"hello"};
+    ObservedString s2 = s1;
+    std::cout << "In scope:" << std::endl << ObservedString::get_observer() << std::endl;
+  }
+  std::cout << "Out of scope:" << std::endl << ObservedString::get_observer();
+}
+
+
 int main(int argc, char *argv[]) {
   int case_id = 0;
   if (argc > 1) {
@@ -23,6 +33,9 @@ int main(int argc, char *argv[]) {
   switch (case_id) {
     case 1:
       case1();
+      break;
+    case 2:
+      case2();
       break;
     default:
       std::cout << "Please choose the correct case!" << std::endl;

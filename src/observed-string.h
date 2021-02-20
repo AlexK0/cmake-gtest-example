@@ -14,6 +14,8 @@ public:
 
   explicit ObservedString(const char *s) : ObservedString(s, std::strlen(s)) {}
 
+  ObservedString(const ObservedString &other) : ObservedString(other.c_str(), other.size()) {}
+
   const char *c_str() const noexcept { return str_.c_str(); }
 
   size_t size() const noexcept { return str_.size(); }
