@@ -15,10 +15,10 @@ public:
   explicit ObservedString(const char *s) : ObservedString(s, std::strlen(s)) {}
 
   ObservedString(const ObservedString &other) : ObservedString(other.c_str(), other.size()) {}
-
-  ObservedString(ObservedString &&other) : str_{std::move(other.str_)} { other.str_.clear(); }
+  ObservedString(ObservedString &&other);
 
   ObservedString &operator=(const ObservedString &other);
+  ObservedString &operator=(ObservedString &&other);
 
   ObservedString &operator+=(const ObservedString &other);
 
