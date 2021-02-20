@@ -18,6 +18,8 @@ public:
 
   ObservedString &operator=(const ObservedString &other);
 
+  ObservedString &operator+=(const ObservedString &other);
+
 
   const char *c_str() const noexcept { return str_.c_str(); }
 
