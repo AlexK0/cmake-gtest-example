@@ -1,6 +1,7 @@
 // main.cpp
 
 #include "observed-string.h"
+#include "rational.h"
 
 #include <iostream>
 #include <vector>
@@ -131,6 +132,41 @@ void case11() {
   ObservedString s = some_fun11_1() + some_fun11_2();
 }
 
+void case12() {
+  Rational x{1, 5};
+  Rational y{2};
+  Rational z = x * y;
+
+  std::cout << "x: " << x << std::endl;
+  std::cout << "y: " << y << std::endl;
+  std::cout << "z: " << z << std::endl;
+}
+
+Rational make_rational(int numerator) {
+  std::cout << "make_rational(" << numerator << ")" << std::endl;
+  return Rational{numerator};
+}
+
+void case13() {
+  if (make_rational(1) || make_rational(2)) {
+    std::cout << "in if" << std::endl;
+  } else {
+    std::cout << "in else" << std::endl;
+  }
+}
+
+void case14() {
+  int x = 1;
+  int y = 2;
+  int z = 3;
+  int a = 4;
+  int b = 5;
+  int c = 6;
+
+  int w = a = b = c /= y -= z *= x += 5;
+}
+
+
 int main(int argc, char *argv[]) {
   int case_id = 0;
   if (argc > 1) {
@@ -170,6 +206,12 @@ int main(int argc, char *argv[]) {
       break;
     case 11:
       case11();
+      break;
+    case 12:
+      case12();
+      break;
+    case 13:
+      case13();
       break;
     default:
       std::cout << "Please choose the correct case!" << std::endl;
