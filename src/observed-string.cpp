@@ -20,11 +20,13 @@ void ObservedString::on_string_remove() noexcept {
 }
 
 ObservedString::ObservedString(ObservedString &&other) {
+  std::cout << "move ctr: " << str_ << std::endl;
   str_.swap(other.str_);
   other.str_.clear();
 }
 
 ObservedString &ObservedString::operator=(const ObservedString &other) {
+  std::cout << "copy assign: " << str_ << std::endl;
   on_string_remove();
   str_ = other.str_;
   on_string_create();
@@ -32,6 +34,7 @@ ObservedString &ObservedString::operator=(const ObservedString &other) {
 }
 
 ObservedString &ObservedString::operator=(ObservedString &&other) {
+  std::cout << "move assign: " << str_ << std::endl;
   on_string_remove();
   str_.swap(other.str_);
   other.str_.clear();

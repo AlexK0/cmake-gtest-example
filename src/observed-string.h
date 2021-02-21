@@ -5,16 +5,21 @@
 #include "string-observer.h"
 
 #include <cstring>
+#include <iostream>
 
 class ObservedString {
 public:
   ObservedString(const char *s, size_t len) : str_{s, len} {
+    std::cout << "ctr: " << str_ << std::endl;
     on_string_create();
   }
 
   explicit ObservedString(const char *s) : ObservedString(s, std::strlen(s)) {}
 
-  ObservedString(const ObservedString &other) : ObservedString(other.c_str(), other.size()) {}
+  ObservedString(const ObservedString &other) : str_(other.str_) {
+    std::cout << "copy ctr: " << str_ << std::endl;
+    on_string_create();
+  }
   ObservedString(ObservedString &&other);
 
   ObservedString &operator=(const ObservedString &other);
@@ -28,7 +33,10 @@ public:
 
   size_t size() const noexcept { return str_.size(); }
 
-  ~ObservedString() { on_string_remove(); }
+  ~ObservedString() {
+    std::cout << "~dctr: " << str_ << std::endl;
+    on_string_remove();
+  }
 
   static StringObserver &get_observer() noexcept;
 

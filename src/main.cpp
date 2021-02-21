@@ -78,6 +78,59 @@ void case7() {
   std::cout << "Out of scope:" << std::endl << ObservedString::get_observer();
 }
 
+void case8() {
+  {
+    ObservedString s1{"hello"};
+    ObservedString s2{"world"};
+    ObservedString s3 = s1 + s2;
+    ObservedString s4 = s3;
+  }
+
+  std::cout << std::endl << ObservedString::get_observer();
+}
+
+ObservedString some_fun2() {
+  ObservedString s{"hello"};
+  return s;
+};
+
+const ObservedString &some_fun1(const ObservedString &s) {
+  std::cout << "in some_fun1!" << std::endl;
+  return s;
+}
+
+void case9() {
+  const ObservedString &s1 = some_fun1(some_fun2());
+  ObservedString s2{"world"};
+  std::cout << std::endl << ObservedString::get_observer();
+}
+
+ObservedString some_fun10() {
+  ObservedString s{"hello"};
+  return s;
+};
+
+void case10(bool x) {
+  static ObservedString default_world{"default world"};
+  const ObservedString &s1 = x ? static_cast<const ObservedString &>(some_fun10()) : default_world;
+
+  std::cout << std::endl << ObservedString::get_observer();
+}
+
+ObservedString some_fun11_1() {
+  ObservedString s{"some_fun11_1"};
+  return s;
+};
+
+ObservedString some_fun11_2() {
+  ObservedString s{"some_fun11_2"};
+  return s;
+};
+
+void case11() {
+  ObservedString s = some_fun11_1() + some_fun11_2();
+}
+
 int main(int argc, char *argv[]) {
   int case_id = 0;
   if (argc > 1) {
@@ -105,6 +158,18 @@ int main(int argc, char *argv[]) {
       break;
     case 7:
       case7();
+      break;
+    case 8:
+      case8();
+      break;
+    case 9:
+      case9();
+      break;
+    case 10:
+      case10(true);
+      break;
+    case 11:
+      case11();
       break;
     default:
       std::cout << "Please choose the correct case!" << std::endl;
