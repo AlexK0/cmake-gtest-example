@@ -100,11 +100,17 @@ const ObservedString &some_fun1(const ObservedString &s) {
   return s;
 }
 
+const ObservedString &some_fun3(const ObservedString &s) {
+  std::cout << "in some_fun3!" << std::endl;
+  return s;
+}
+
 void case9() {
-  const ObservedString &s1 = some_fun1(some_fun2());
+  const ObservedString &s1 = some_fun3(some_fun1(some_fun2()));
   ObservedString s2{"world"};
   std::cout << std::endl << ObservedString::get_observer();
 }
+
 
 ObservedString some_fun10() {
   ObservedString s{"hello"};
@@ -156,14 +162,10 @@ void case13() {
 }
 
 void case14() {
-  int x = 1;
-  int y = 2;
-  int z = 3;
-  int a = 4;
-  int b = 5;
-  int c = 6;
+  std::vector<int> x{5, 10}; // 5 10
+  std::vector<int> y(5, 10); // 10 10 10 10 10
 
-  int w = a = b = c /= y -= z *= x += 5;
+  std::cout << x.size() << std::endl << y.size() << std::endl;
 }
 
 
@@ -212,6 +214,9 @@ int main(int argc, char *argv[]) {
       break;
     case 13:
       case13();
+      break;
+    case 14:
+      case14();
       break;
     default:
       std::cout << "Please choose the correct case!" << std::endl;
