@@ -79,6 +79,98 @@ void case6() {
   std::cout << std::endl;
 }
 
+void case7() {
+  std::vector<int> v{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+  std::copy(ShuffleAccessIterator<int>(v), ShuffleAccessIterator<int>(v, 0),
+            std::ostream_iterator<int>(std::cout, " "));
+  std::cout << std::endl;
+
+  std::copy(ShuffleAccessIterator<int>(v, 20), ShuffleAccessIterator<int>(v, 0),
+            std::ostream_iterator<int>(std::cout, " "));
+  std::cout << std::endl;
+}
+
+void case8() {
+  std::vector<int> v{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  for (int i : ShuffleAccessRange(v)) {
+    std::cout << i << ", ";
+  }
+  std::cout << std::endl;
+}
+
+void case9() {
+  std::vector<int> v{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+  ShuffleAccessRange shuffle_range{v};
+
+  for (int i : shuffle_range) {
+    std::cout << i << ", ";
+  }
+  std::cout << std::endl;
+
+  for (int i : shuffle_range) {
+    std::cout << i << ", ";
+  }
+  std::cout << std::endl;
+}
+
+void case10() {
+  std::vector<std::pair<std::string, int>> v{{"Alex",   1},
+                                             {"Bob",    2},
+                                             {"Jessie", 3},
+                                             {"Don",    4}};
+  for (auto &i : ShuffleAccessRange{v, 2}) {
+    i.second *= 10;
+  }
+
+  for (const auto &i : v) {
+    std::cout << "[" << i.first << ": " << i.second << "], ";
+  }
+  std::cout << std::endl;
+}
+
+void case11() {
+  std::vector<std::pair<std::string, int>> v{{"Alex",   1},
+                                             {"Bob",    2},
+                                             {"Jessie", 3},
+                                             {"Don",    4}};
+  ShuffleAccessRange shuffle_range{v, 2};
+  for (auto it = shuffle_range.begin(); it != shuffle_range.end(); ++it) {
+    it->second *= 10;
+  }
+
+  for (const auto &i : v) {
+    std::cout << "[" << i.first << ": " << i.second << "], ";
+  }
+  std::cout << std::endl;
+}
+
+void case12() {
+  std::vector<std::string> v{"Liam", "Olivia",
+                             "Noah", "Emma",
+                             "Oliver", "Ava",
+                             "William", "Sophia",
+                             "Elijah", "Isabella",
+                             "James", "Charlotte",
+                             "Benjamin", "Amelia",
+                             "Lucas", "Mia",
+                             "Mason", "Harper"};
+
+  ShuffleAccessRange shuffle_range{v, 3};
+  std::fill(shuffle_range.begin(), shuffle_range.end(), "DELETED");
+
+  std::copy(v.begin(), v.end(), std::ostream_iterator<std::string>(std::cout, ", "));
+  std::cout << std::endl;
+}
+
+void case13() {
+  std::vector<int> v{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+
+  ShuffleAccessRange shuffle_range{v, 4};
+  std::cout << std::accumulate(shuffle_range.begin(), shuffle_range.end(), int{0}) << std::endl;
+}
+
 int main(int argc, char *argv[]) {
   int case_id = 0;
   if (argc > 1) {
@@ -103,6 +195,27 @@ int main(int argc, char *argv[]) {
       break;
     case 6:
       case6();
+      break;
+    case 7:
+      case7();
+      break;
+    case 8:
+      case8();
+      break;
+    case 9:
+      case9();
+      break;
+    case 10:
+      case10();
+      break;
+    case 11:
+      case11();
+      break;
+    case 12:
+      case12();
+      break;
+    case 13:
+      case13();
       break;
     default:
       std::cout << "Please choose the correct case!" << std::endl;
