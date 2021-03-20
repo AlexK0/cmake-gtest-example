@@ -21,23 +21,26 @@ static void Algo4Old(benchmark::State &state) {
   for (auto _ : state) {
     benchmark::DoNotOptimize(algo4_old(test_data));
   }
+  state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo4Old)->RangeMultiplier(2)->Range(1024, 256*1024);
+BENCHMARK(Algo4Old)->RangeMultiplier(2)->Range(1024, 256*1024)->Complexity();
 
 static void Algo4New2(benchmark::State &state) {
   auto test_data = make_test_data(state.range());
   for (auto _ : state) {
     benchmark::DoNotOptimize(algo4_new2(test_data));
   }
+  state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo4New2)->RangeMultiplier(2)->Range(1024, 256*1024);
+BENCHMARK(Algo4New2)->RangeMultiplier(2)->Range(1024, 256*1024)->Complexity();
 
 static void Algo4New3(benchmark::State &state) {
   auto test_data = make_test_data(state.range());
   for (auto _ : state) {
     benchmark::DoNotOptimize(algo4_new3(test_data));
   }
+  state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo4New3)->RangeMultiplier(2)->Range(1024, 256*1024);
+BENCHMARK(Algo4New3)->RangeMultiplier(2)->Range(1024, 256*1024)->Complexity();
 
 BENCHMARK_MAIN();

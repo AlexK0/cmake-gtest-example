@@ -24,8 +24,9 @@ static void Algo3Old(benchmark::State &state) {
     algo3_old(copy_data);
     benchmark::DoNotOptimize(copy_data);
   }
+  state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo3Old)->RangeMultiplier(2)->Range(1024, 32*1024);
+BENCHMARK(Algo3Old)->RangeMultiplier(2)->Range(1024, 256*1024)->Complexity();
 
 static void Algo3New(benchmark::State &state) {
   auto test_data = make_test_data(state.range());
@@ -36,8 +37,9 @@ static void Algo3New(benchmark::State &state) {
     algo3_new(copy_data);
     benchmark::DoNotOptimize(copy_data);
   }
+  state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo3New)->RangeMultiplier(2)->Range(1024, 256*1024);
+BENCHMARK(Algo3New)->RangeMultiplier(2)->Range(1024, 256*1024)->Complexity();
 
 static void Algo3New2(benchmark::State &state) {
   auto test_data = make_test_data(state.range());
@@ -48,7 +50,8 @@ static void Algo3New2(benchmark::State &state) {
     algo3_new2(copy_data);
     benchmark::DoNotOptimize(copy_data);
   }
+  state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo3New2)->RangeMultiplier(2)->Range(1024, 256*1024);
+BENCHMARK(Algo3New2)->RangeMultiplier(2)->Range(1024, 256*1024)->Complexity();
 
 BENCHMARK_MAIN();

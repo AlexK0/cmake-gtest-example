@@ -19,8 +19,9 @@ static void Algo2Old(benchmark::State &state) {
     state.ResumeTiming();
     benchmark::DoNotOptimize(algo2_old(copy_data, 10, 50));
   }
+  state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo2Old)->Arg(10)->Arg(100)->Arg(1000)->Arg(10000);
+BENCHMARK(Algo2Old)->RangeMultiplier(2)->Range(1024, 1024*2*2*2*2*2)->Complexity();
 
 static void Algo2New(benchmark::State &state) {
   auto test_data = make_test_data(state.range());
@@ -30,7 +31,8 @@ static void Algo2New(benchmark::State &state) {
     state.ResumeTiming();
     benchmark::DoNotOptimize(algo2_new(copy_data, 10, 50));
   }
+  state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo2New)->Arg(10)->Arg(100)->Arg(1000)->Arg(10000);
+BENCHMARK(Algo2New)->RangeMultiplier(2)->Range(1024, 1024*2*2*2*2*2)->Complexity();
 
 BENCHMARK_MAIN();

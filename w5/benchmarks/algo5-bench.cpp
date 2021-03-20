@@ -14,20 +14,22 @@ std::vector<int> make_test_data(size_t elements) {
   return result;
 }
 
-static void Algo6Old(benchmark::State &state) {
+static void Algo5Old(benchmark::State &state) {
   auto test_data = make_test_data(state.range());
   for (auto _ : state) {
     benchmark::DoNotOptimize(algo5_old(test_data));
   }
+  state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo6Old)->RangeMultiplier(2)->Range(64*1024, 512*1024);
+BENCHMARK(Algo5Old)->RangeMultiplier(2)->Range(64*1024, 512*1024)->Complexity();
 
-static void Algo6New(benchmark::State &state) {
+static void Algo5New(benchmark::State &state) {
   auto test_data = make_test_data(state.range());
   for (auto _ : state) {
     benchmark::DoNotOptimize(algo5_new2(test_data));
   }
+  state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo6New)->RangeMultiplier(2)->Range(64*1024, 512*1024);
+BENCHMARK(Algo5New)->RangeMultiplier(2)->Range(64*1024, 512*1024)->Complexity();
 
 BENCHMARK_MAIN();
