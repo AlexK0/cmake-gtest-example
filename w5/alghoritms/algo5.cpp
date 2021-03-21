@@ -3,7 +3,7 @@
 
 #include "algo5.h"
 
-
+// НЕ ЗАБЫТЬ СКАЗАТЬ ПРО ПЕРЕПОЛНЕНИЕ!
 double algo5_old(const std::vector<int> &vs) {
   if (vs.empty()) {
     return 0;

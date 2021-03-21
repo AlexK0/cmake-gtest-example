@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 
 std::string algo4_proxy(const std::string &s) {
-  return algo4_new3(s);
+  return algo4_old(s);
 }
 
 TEST(algo4_tests, test) {

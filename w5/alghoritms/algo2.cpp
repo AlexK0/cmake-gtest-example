@@ -9,8 +9,12 @@ int algo2_old(std::vector<double> &v, double x, double y) {
 
   std::vector<int> i_s;
   for (int i = 0; i < v.size(); i = i + 1) {
-    if (v[i] < x || v[i] > y) {
+    if (v[i] < x) {
       i_s.emplace_back(i);
+      continue;
+    } else if (v[i] > y) {
+      i_s.emplace_back(i);
+      continue;
     }
   }
 

@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 
 std::vector<double> algo7_proxy(const std::vector<double> &s) {
-  return algo7_old(s);
+  return algo7_new(s);
 }
 
 TEST(algo7_tests, test) {

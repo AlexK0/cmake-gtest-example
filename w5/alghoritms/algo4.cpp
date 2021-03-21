@@ -9,18 +9,32 @@ std::string algo4_old(const std::string &s) {
   }
 
   std::string r;
+  std::string u = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  std::string l = "abcdefghijklmnopqrstuvwxyz";
+  std::string d = "0123456789";
+
   for (int i = 0; i < s.size(); i = i + 1) {
-    if (s[i] >= 'A' && s[i] <= 'Z') {
-      r.push_back(s[i]);
-      continue;
-    } else if (s[i] >= 'a' && s[i] <= 'z') {
-      r.push_back(s[i]);
-      continue;
-    } else if (s[i] >= '0' && s[i] <= '9') {
-      r.push_back(s[i]);
-      continue;
+    for (int j = 0; j < u.size(); j++) {
+      if (u[j] == s[i]) {
+        r.push_back(u[j]);
+        continue;
+      }
     }
-    r.push_back('_');
+    for (int j = 0; j < l.size(); j++) {
+      if (l[j] == s[i]) {
+        r.push_back(l[j]);
+        continue;
+      }
+    }
+    for (int j = 0; j < d.size(); j++) {
+      if (d[j] == s[i]) {
+        r.push_back(d[j]);
+        continue;
+      }
+    }
+    if (r.size() == i) {
+      r.push_back('_');
+    }
   }
 
   return r;
