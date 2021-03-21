@@ -23,7 +23,7 @@ static void Algo6Old(benchmark::State &state) {
     benchmark::DoNotOptimize(ComputeAvgTemp(test_data));
   }
 }
-BENCHMARK(Algo6Old)->Arg(32*1024*1024);
+BENCHMARK(Algo6Old)->Arg(32*1024*1024)->Unit(benchmark::kMillisecond);
 
 static void Algo6New(benchmark::State &state) {
   auto test_data = make_test_data(7, state.range());
@@ -31,6 +31,6 @@ static void Algo6New(benchmark::State &state) {
     benchmark::DoNotOptimize(ComputeAvgTempNew(test_data));
   }
 }
-BENCHMARK(Algo6New)->Arg(32*1024*1024);
+BENCHMARK(Algo6New)->Arg(32*1024*1024)->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();

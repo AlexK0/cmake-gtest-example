@@ -13,19 +13,19 @@ std::map<std::string, int> make_test_data(size_t elements) {
 static void Algo1Old(benchmark::State &state) {
   auto test_data = make_test_data(state.range());
   for (auto _ : state) {
-    benchmark::DoNotOptimize(algo1_old(test_data, 277));
+    benchmark::DoNotOptimize(algo1_old(test_data, 517));
   }
   state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo1Old)->RangeMultiplier(2)->Range(128, 128*2*2*2*2*2)->Complexity();
+BENCHMARK(Algo1Old)->RangeMultiplier(2)->Range(512, 512*2*2*2*2*2)->Complexity()->Unit(benchmark::kMillisecond);
 
 static void Algo1New(benchmark::State &state) {
   auto test_data = make_test_data(state.range());
   for (auto _ : state) {
-    benchmark::DoNotOptimize(algo1_new(test_data, 277));
+    benchmark::DoNotOptimize(algo1_new(test_data, 517));
   }
   state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo1New)->RangeMultiplier(2)->Range(128, 128*2*2*2*2*2)->Complexity();
+BENCHMARK(Algo1New)->RangeMultiplier(2)->Range(512, 512*2*2*2*2*2)->Complexity()->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();

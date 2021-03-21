@@ -26,7 +26,7 @@ static void Algo3Old(benchmark::State &state) {
   }
   state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo3Old)->RangeMultiplier(2)->Range(1024, 256*1024)->Complexity();
+BENCHMARK(Algo3Old)->RangeMultiplier(2)->Range(1024, 256*1024)->Complexity()->Unit(benchmark::kMillisecond);
 
 static void Algo3New(benchmark::State &state) {
   auto test_data = make_test_data(state.range());
@@ -39,7 +39,7 @@ static void Algo3New(benchmark::State &state) {
   }
   state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo3New)->RangeMultiplier(2)->Range(1024, 256*1024)->Complexity();
+BENCHMARK(Algo3New)->RangeMultiplier(2)->Range(1024, 256*1024)->Complexity()->Unit(benchmark::kMillisecond);
 
 static void Algo3New2(benchmark::State &state) {
   auto test_data = make_test_data(state.range());
@@ -52,6 +52,6 @@ static void Algo3New2(benchmark::State &state) {
   }
   state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo3New2)->RangeMultiplier(2)->Range(1024, 256*1024)->Complexity();
+BENCHMARK(Algo3New2)->RangeMultiplier(2)->Range(1024, 256*1024)->Complexity()->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();

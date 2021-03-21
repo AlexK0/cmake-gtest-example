@@ -21,15 +21,24 @@ static void Algo5Old(benchmark::State &state) {
   }
   state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo5Old)->RangeMultiplier(2)->Range(64*1024, 512*1024)->Complexity();
+BENCHMARK(Algo5Old)->RangeMultiplier(2)->Range(128*1024, 1024*1024)->Complexity()->Unit(benchmark::kMillisecond);
 
 static void Algo5New(benchmark::State &state) {
+  auto test_data = make_test_data(state.range());
+  for (auto _ : state) {
+    benchmark::DoNotOptimize(algo5_new(test_data));
+  }
+  state.SetComplexityN(state.range(0));
+}
+BENCHMARK(Algo5New)->RangeMultiplier(2)->Range(128*1024, 1024*1024)->Complexity()->Unit(benchmark::kMillisecond);
+
+static void Algo5New2(benchmark::State &state) {
   auto test_data = make_test_data(state.range());
   for (auto _ : state) {
     benchmark::DoNotOptimize(algo5_new2(test_data));
   }
   state.SetComplexityN(state.range(0));
 }
-BENCHMARK(Algo5New)->RangeMultiplier(2)->Range(64*1024, 512*1024)->Complexity();
+BENCHMARK(Algo5New2)->RangeMultiplier(2)->Range(128*1024, 1024*1024)->Complexity()->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();
