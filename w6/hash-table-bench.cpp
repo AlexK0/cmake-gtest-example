@@ -1,6 +1,8 @@
+#include <string>
+#include <map>
 #include <benchmark/benchmark.h>
 
-#include "alghoritms/algo1.h"
+#include "hash-table.h"
 
 std::map<std::string, int> make_test_data(size_t elements) {
   std::map<std::string, int> result;
@@ -13,7 +15,7 @@ std::map<std::string, int> make_test_data(size_t elements) {
 static void Algo1Old(benchmark::State &state) {
   auto test_data = make_test_data(state.range());
   for (auto _ : state) {
-    benchmark::DoNotOptimize(algo1_old(test_data, 2789));
+   // benchmark::DoNotOptimize(algo1_old(test_data, 2789));
   }
   state.SetComplexityN(state.range());
 }
@@ -22,7 +24,7 @@ BENCHMARK(Algo1Old)->RangeMultiplier(2)->Range(512, 512*2*2*2*2*2)->Complexity()
 static void Algo1New(benchmark::State &state) {
   auto test_data = make_test_data(state.range());
   for (auto _ : state) {
-    benchmark::DoNotOptimize(algo1_new(test_data, 2789));
+   // benchmark::DoNotOptimize(algo1_new(test_data, 2789));
   }
   state.SetComplexityN(state.range(0));
 }

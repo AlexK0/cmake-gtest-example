@@ -32,6 +32,7 @@ std::vector<std::string> algo1_old(const std::map<std::string, int> &t, int x) {
 
 std::vector<std::string> algo1_new(const std::map<std::string, int> &table, size_t limit) noexcept {
   std::vector<std::string> result;
+  result.reserve(std::min(limit, table.size()));
   for (auto it = table.rbegin(); it != table.rend() && limit; ++it) {
     if (it->second < 0) {
       result.emplace_back(it->first);

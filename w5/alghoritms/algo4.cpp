@@ -18,6 +18,7 @@ std::string algo4_old(const std::string &s) {
       if (u[j] == s[i]) {
         r.push_back(u[j]);
         continue;
+        break;
       }
     }
     for (int j = 0; j < l.size(); j++) {
