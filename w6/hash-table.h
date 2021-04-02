@@ -86,8 +86,8 @@ public:
   }
 
   size_type erase(const key_type &k) {
-    size_type erased_bucket_id = get_bucket_id(k, key_hasher_(k));
-    node_type *erased_node = &table_[erased_bucket_id];
+    const size_type erasing_bucket_id = get_bucket_id(k, key_hasher_(k));
+    node_type *erased_node = &table_[erasing_bucket_id];
     if (!erased_node->has_value) {
       return 0;
     }
@@ -95,21 +95,26 @@ public:
     erased_node->reset();
     --size_;
 
-    size_type moving_bucket_id = get_next_bucket_id(erased_bucket_id);
+    size_type vacant_bucket_id = erasing_bucket_id;
+    node_type *vacant_node = erased_node;
+    size_type next_bucket_id = get_next_bucket_id(vacant_bucket_id);
     for (;;) {
-      node_type *moving_node = &table_[moving_bucket_id];
-      if (!moving_node->has_value) {
+      node_type *next_node = &table_[next_bucket_id];
+      if (!next_node->has_value) {
         break;
       }
 
-      const size_type required_bucket = moving_node->key_hash % buckets_;
-      if (required_bucket != moving_bucket_id && required_bucket <= erased_bucket_id) {
-        erased_node->init_with(std::move(*moving_node->get_stored_value()), moving_node->key_hash);
-        moving_node->reset();
-        erased_node = moving_node;
-        erased_bucket_id = moving_bucket_id;
+      // 0 1 2 3 4 5 <- bucket_id
+      // 0         _ <- hash
+      const size_type next_node_desired_bucket_id = next_node->key_hash % buckets_;
+      if (next_node_desired_bucket_id != next_bucket_id &&
+          (vacant_bucket_id >= next_node_desired_bucket_id || next_node_desired_bucket_id > next_bucket_id)) {
+        vacant_node->init_with(std::move(*next_node->get_stored_value()), next_node->key_hash);
+        vacant_node = next_node;
+        vacant_node->reset();
+        vacant_bucket_id = next_bucket_id;
       }
-      moving_bucket_id = get_next_bucket_id(moving_bucket_id);
+      next_bucket_id = get_next_bucket_id(next_bucket_id);
     }
 
     return 1;
