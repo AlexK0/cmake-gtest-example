@@ -16,5 +16,8 @@ target_link_libraries(unittests PRIVATE gtest gtest_main -lpthread)
 add_executable(bench-insert hash-table-insert-bench.cpp)
 target_link_libraries(bench-insert PRIVATE benchmark::benchmark)
 
+add_executable(bench-find-insert hash-table-find-insert-bench.cpp)
+target_link_libraries(bench-find-insert PRIVATE benchmark::benchmark)
+
 add_executable(bench-insert-erase hash-table-insert-erase-bench.cpp)
 target_link_libraries(bench-insert-erase PRIVATE benchmark::benchmark)

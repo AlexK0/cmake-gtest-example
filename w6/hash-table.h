@@ -104,8 +104,6 @@ public:
         break;
       }
 
-      // 0 1 2 3 4 5 <- bucket_id
-      // 0         _ <- hash
       const size_type next_node_desired_bucket_id = next_node->key_hash % buckets_;
       if (next_node_desired_bucket_id != next_bucket_id &&
           (vacant_bucket_id >= next_node_desired_bucket_id || next_node_desired_bucket_id > next_bucket_id)) {

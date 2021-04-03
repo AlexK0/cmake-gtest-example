@@ -7,7 +7,7 @@
 #include "hash-table.h"
 
 
-static void HashTableInsertion(benchmark::State &state) {
+static void HashTableInsert(benchmark::State &state) {
   std::mt19937 gen{100500};
   std::uniform_int_distribution<std::size_t> dis(0, state.range());
 
@@ -20,9 +20,9 @@ static void HashTableInsertion(benchmark::State &state) {
 
   state.SetComplexityN(state.range());
 }
-BENCHMARK(HashTableInsertion)->RangeMultiplier(2)->Range(2 << 15, 2 << 23)->Complexity()->Unit(benchmark::kMillisecond);
+BENCHMARK(HashTableInsert)->RangeMultiplier(2)->Range(2 << 15, 2 << 23)->Complexity()->Unit(benchmark::kMillisecond);
 
-static void UnorderedMapInsertion(benchmark::State &state) {
+static void UnorderedMapInsert(benchmark::State &state) {
   std::mt19937 gen{100500};
   std::uniform_int_distribution<std::size_t> dis(0, state.range());
 
@@ -35,10 +35,10 @@ static void UnorderedMapInsertion(benchmark::State &state) {
 
   state.SetComplexityN(state.range(0));
 }
-BENCHMARK(UnorderedMapInsertion)->RangeMultiplier(2)->Range(2 << 15, 2 << 23)->Complexity()->Unit(benchmark::kMillisecond);
+BENCHMARK(UnorderedMapInsert)->RangeMultiplier(2)->Range(2 << 15, 2 << 23)->Complexity()->Unit(benchmark::kMillisecond);
 
 
-static void MapInsertion(benchmark::State &state) {
+static void MapInsert(benchmark::State &state) {
   std::mt19937 gen{100500};
   std::uniform_int_distribution<std::size_t> dis(0, state.range());
 
@@ -51,7 +51,7 @@ static void MapInsertion(benchmark::State &state) {
 
   state.SetComplexityN(state.range(0));
 }
-BENCHMARK(MapInsertion)->RangeMultiplier(2)->Range(2 << 15, 2 << 23)->Complexity()->Unit(benchmark::kMillisecond);
+BENCHMARK(MapInsert)->RangeMultiplier(2)->Range(2 << 15, 2 << 23)->Complexity()->Unit(benchmark::kMillisecond);
 
 
 BENCHMARK_MAIN();
