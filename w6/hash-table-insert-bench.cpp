@@ -12,7 +12,7 @@ static void HashTableInsert(benchmark::State &state) {
   std::uniform_int_distribution<std::size_t> dis(0, state.range());
 
   for (auto _ : state) {
-    hash_table<std::size_t, std::size_t> m(2*state.range());
+    hash_table<std::size_t, std::size_t> m;
     for (int i = 0; i != state.range(); ++i) {
       benchmark::DoNotOptimize(m.insert({dis(gen), 123}));
     }
@@ -27,7 +27,7 @@ static void UnorderedMapInsert(benchmark::State &state) {
   std::uniform_int_distribution<std::size_t> dis(0, state.range());
 
   for (auto _ : state) {
-    std::unordered_map<std::size_t, std::size_t> m(2*state.range());
+    std::unordered_map<std::size_t, std::size_t> m;
     for (int i = 0; i != state.range(); ++i) {
       benchmark::DoNotOptimize(m.insert({dis(gen), 123}));
     }

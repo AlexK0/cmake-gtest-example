@@ -20,7 +20,7 @@ public:
   using const_pointer = const value_type *;
 
 private:
-  struct node_type {
+  struct bucket_type {
     pointer get_stored_value() noexcept {
       return reinterpret_cast<pointer>(&storage);
     }
@@ -53,7 +53,7 @@ public:
           key_hasher_{hash},
           key_equal_comparator_{equal},
           buckets_{std::max(size_type{17}, initial_buckets)},
-          table_{std::make_unique<node_type[]>(buckets_)} {
+          table_{std::make_unique<bucket_type[]>(buckets_)} {
   }
 
   std::pair<pointer, bool> insert(const value_type &val) {
@@ -62,7 +62,7 @@ public:
     }
 
     const size_type key_hash = key_hasher_(val.first);
-    node_type &node = table_[get_bucket_id(val.first, key_hash)];
+    bucket_type &node = table_[get_bucket_id(val.first, key_hash)];
 
     const bool has_value = node.has_value;
     if (!has_value) {
@@ -73,12 +73,12 @@ public:
   }
 
   pointer find(const key_type &k) {
-    node_type &node = table_[get_bucket_id(k, key_hasher_(k))];
+    bucket_type &node = table_[get_bucket_id(k, key_hasher_(k))];
     return node.has_value ? node.get_stored_value() : nullptr;
   }
 
   const_pointer find(const key_type &k) const {
-    const node_type &node = table_[get_bucket_id(k, key_hasher_(k))];
+    const bucket_type &node = table_[get_bucket_id(k, key_hasher_(k))];
     return node.has_value ? node.get_stored_value() : nullptr;
   }
 
@@ -88,7 +88,7 @@ public:
 
   size_type erase(const key_type &k) {
     const size_type erasing_bucket_id = get_bucket_id(k, key_hasher_(k));
-    node_type *erased_node = &table_[erasing_bucket_id];
+    bucket_type *erased_node = &table_[erasing_bucket_id];
     if (!erased_node->has_value) {
       return 0;
     }
@@ -97,10 +97,10 @@ public:
     --size_;
 
     size_type vacant_bucket_id = erasing_bucket_id;
-    node_type *vacant_node = erased_node;
+    bucket_type *vacant_node = erased_node;
     size_type next_bucket_id = get_next_bucket_id(vacant_bucket_id);
     for (;;) {
-      node_type *next_node = &table_[next_bucket_id];
+      bucket_type *next_node = &table_[next_bucket_id];
       if (!next_node->has_value) {
         break;
       }
@@ -137,20 +137,20 @@ public:
     }
 
     new_buckets_count |= 1;
-    auto new_table = std::make_unique<node_type[]>(new_buckets_count);
+    auto new_table = std::make_unique<bucket_type[]>(new_buckets_count);
 
     const size_type old_buckets_count = buckets_;
-    std::unique_ptr<node_type[]> old_table = std::move(table_);
+    std::unique_ptr<bucket_type[]> old_table = std::move(table_);
 
     table_ = std::move(new_table);
     buckets_ = new_buckets_count;
 
     try {
       for (size_type i = 0; i != old_buckets_count; ++i) {
-        node_type &old_node = old_table[i];
+        bucket_type &old_node = old_table[i];
         if (old_node.has_value) {
           pointer old_stored_value = old_node.get_stored_value();
-          node_type &new_node = table_[get_bucket_id(old_stored_value->first, old_node.key_hash)];
+          bucket_type &new_node = table_[get_bucket_id(old_stored_value->first, old_node.key_hash)];
           assert(!new_node.has_value);
 
           new_node.init_with(std::move(*old_stored_value), old_node.key_hash);
@@ -164,7 +164,7 @@ public:
 
   void clear() noexcept {
     for (size_type i = 0; i != buckets_; ++i) {
-      node_type &node = table_[i];
+      bucket_type &node = table_[i];
       if (node.has_value) {
         node.reset();
       }
@@ -200,5 +200,5 @@ private:
   key_equal key_equal_comparator_;
   size_type size_{0};
   size_type buckets_{0};
-  std::unique_ptr<node_type[]> table_;
+  std::unique_ptr<bucket_type[]> table_;
 };
