@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <functional>
+#include <memory>
 
 template<class Key, class T, class Hash = std::hash<Key>, class KeyEqual = std::equal_to<Key>>
 class hash_table {
@@ -52,7 +53,7 @@ public:
           key_hasher_{hash},
           key_equal_comparator_{equal},
           buckets_{std::max(size_type{17}, initial_buckets)},
-          table_{new node_type[buckets_]} {
+          table_{std::make_unique<node_type[]>(buckets_)} {
   }
 
   std::pair<pointer, bool> insert(const value_type &val) {
@@ -135,11 +136,13 @@ public:
       return;
     }
 
-    const size_type old_buckets_count = buckets_;
-    node_type *old_table = table_;
-
     new_buckets_count |= 1;
-    table_ = new node_type[new_buckets_count];
+    auto new_table = std::make_unique<node_type[]>(new_buckets_count);
+
+    const size_type old_buckets_count = buckets_;
+    std::unique_ptr<node_type[]> old_table = std::move(table_);
+
+    table_ = std::move(new_table);
     buckets_ = new_buckets_count;
 
     try {
@@ -157,7 +160,6 @@ public:
     } catch (...) {
       assert(!"got exception on rehashing");
     }
-    delete[] old_table;
   }
 
   void clear() noexcept {
@@ -172,7 +174,6 @@ public:
 
   ~hash_table() noexcept {
     clear();
-    delete[] table_;
   }
 
 private:
@@ -199,5 +200,5 @@ private:
   key_equal key_equal_comparator_;
   size_type size_{0};
   size_type buckets_{0};
-  node_type *table_{nullptr};
+  std::unique_ptr<node_type[]> table_;
 };
