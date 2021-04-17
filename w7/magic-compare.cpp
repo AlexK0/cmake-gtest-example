@@ -7,11 +7,16 @@
 
 namespace {
 
+  template<class C, class T>
+  bool contains(const C &container, const T &value) noexcept {
+    return std::find(container.begin(), container.end(), value) != container.end();
+  }
+
   std::vector<std::string> split(const std::string &str, const std::string &delimiters) {
     std::vector<std::string> result;
     std::string word;
     for (char c : str) {
-      if (delimiters.find(c) == std::string::npos) {
+      if (!contains(delimiters, c)) {
         word.push_back(c);
       } else if (!word.empty()) {
         result.push_back(word);
@@ -23,11 +28,6 @@ namespace {
     }
     return result;
   }
-
-  bool contains(const std::vector<std::string> &container, const std::string &word) noexcept {
-    return std::find(container.begin(), container.end(), word) != container.end();
-  }
-
 } // namespace
 
 bool magic_compare(const std::string &lhs, const std::string &rhs, const std::string &delimiters) noexcept {
@@ -46,14 +46,13 @@ bool magic_compare(const std::string &lhs, const std::string &rhs, const std::st
 }
 
 namespace {
-
   using char_set = std::bitset<std::numeric_limits<uint8_t>::max()>;
 
   template<class F>
   bool for_each_word(std::string_view str, const char_set &delimiters, const F &f) {
     size_t word_start = 0;
     for (size_t i = 0; i != str.size(); ++i) {
-      if (delimiters.test(str[i])) {
+      if (delimiters.test(static_cast<uint8_t>(str[i]))) {
         if (i != word_start) {
           if (!f(std::string_view{&str[word_start], i - word_start})) {
             return false;
@@ -67,8 +66,7 @@ namespace {
     }
     return true;
   }
-
-}
+} // namespace
 
 bool magic_compare_new(const std::string &lhs, const std::string &rhs, const std::string &delimiters) noexcept {
   char_set delimiters_set;
@@ -84,14 +82,11 @@ bool magic_compare_new(const std::string &lhs, const std::string &rhs, const std
 
   std::unordered_map<std::string_view, std::bitset<2>> words;
   for_each_word(shortest, delimiters_set, [&words](std::string_view word) {
-    words[word].set(0);
-    return true;
+    return words[word].set(0).any();
   });
 
   if (!for_each_word(longest, delimiters_set, [&words](std::string_view word) {
-    auto &mask = words[word];
-    mask.set(1);
-    return mask.all();
+    return words[word].set(1).all();
   })) {
     return false;
   }
