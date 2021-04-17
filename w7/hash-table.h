@@ -187,7 +187,7 @@ private:
       if (key_hash == node->key_hash && key_equal_comparator_(key, node->get_stored_value()->first)) {
         return bucket_id;
       }
-      bucket_id = get_next_bucket_id(bucket_id);
+      ++bucket_id;
     }
   }
 

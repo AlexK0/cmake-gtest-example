@@ -8,16 +8,11 @@ find_package(benchmark REQUIRED)
 
 include_directories(.)
 
-add_compile_options(-O3 -march=native -Wall -Wextra -falign-functions=128)
-add_executable(unittests hash-table-test.cpp)
+#add_compile_options(-O3 -march=native -Wall -Wextra -falign-functions=128 -fsanitize=address)
+add_compile_options(-O0 -ggdb3 -march=native -Wall -Wextra -falign-functions=128)
+add_executable(unittests-hash-table hash-table-test.cpp)
+add_executable(unittests-magic-compare magic-compare-test.cpp magic-compare.cpp)
 
-target_link_libraries(unittests PRIVATE gtest gtest_main -lpthread)
-
-add_executable(bench-insert hash-table-insert-bench.cpp)
-target_link_libraries(bench-insert PRIVATE benchmark::benchmark)
-
-add_executable(bench-find-insert hash-table-find-insert-bench.cpp)
-target_link_libraries(bench-find-insert PRIVATE benchmark::benchmark)
-
-add_executable(bench-insert-erase hash-table-insert-erase-bench.cpp)
-target_link_libraries(bench-insert-erase PRIVATE benchmark::benchmark)
+#target_link_libraries(unittests-hash-table PRIVATE gtest gtest_main -lpthread -fsanitize=address)
+target_link_libraries(unittests-hash-table PRIVATE gtest gtest_main -lpthread)
+target_link_libraries(unittests-magic-compare PRIVATE gtest gtest_main -lpthread)
