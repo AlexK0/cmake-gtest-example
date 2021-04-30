@@ -2,6 +2,7 @@
 #include <vector>
 #include <string_view>
 #include <bitset>
+#include <execution>
 
 #include "magic-compare.h"
 
@@ -91,6 +92,9 @@ bool magic_compare_new(const std::string &lhs, const std::string &rhs, const std
     return false;
   }
 
+
+  std::vector<int> x{1,3, 4};
+  std::remove(std::execution::par, x.begin(), x.end(), 0);
   constexpr auto check_diff = [](const auto &word_mask) { return !word_mask.second.all(); };
   return std::find_if(words.begin(), words.end(), check_diff) == words.end();
 }
