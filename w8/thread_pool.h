@@ -44,7 +44,7 @@ public:
           try {
             ctx->user_task_promise.set_exception(std::current_exception());
           } catch (...) {
-            assert(0);
+            // logging
           }
         }
       });
