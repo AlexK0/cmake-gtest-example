@@ -6,10 +6,15 @@
 #include <unordered_set>
 #include <ctime>
 #include <algorithm>
+#include <cassert>
 
-std::string gen_random_string(std::mt19937_64 &rand_gen, size_t max_len_size,
+std::string gen_random_string(std::mt19937_64 &rand_gen, size_t max_len,
                               std::string_view edge_chars, std::string_view inner_chars) noexcept {
-  std::uniform_int_distribution<size_t> distribution{1, max_len_size};
+  assert(max_len > 0);
+  assert(!edge_chars.empty());
+  assert(!inner_chars.empty());
+
+  std::uniform_int_distribution<size_t> distribution{1, max_len};
   std::string random_string(distribution(rand_gen), '\0');
 
   distribution.param(std::uniform_int_distribution<size_t>::param_type{size_t{0}, edge_chars.size() - 1});
